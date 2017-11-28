@@ -152,10 +152,19 @@ public class MainActivity extends AppCompatActivity {
                 "        \"rgba\": [255,165,0,1],\n" +
                 "        \"hex\": \"#FA0\"\n" +
                 "      }\n" +
-                "    }";
+                "    }\n";
+
+
         Map<String, Object> map;
         map = importJsonToMap(content);
 
+        Map<String, Object> orangeToMap = new Gson().fromJson(orange, Map.class);
+
+        ((List)map.get("colors")).add(orangeToMap);
+
+        String mapStr = map.toString();
+
+        textView.setText(mapStr);
     }
 
 
