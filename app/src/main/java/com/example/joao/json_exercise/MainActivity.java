@@ -123,7 +123,6 @@ public class MainActivity extends AppCompatActivity {
                 "      }\n" +
                 "    }\n";
 
-
         Map<String, Object> map;
         map = importJsonToMap(content);
 
