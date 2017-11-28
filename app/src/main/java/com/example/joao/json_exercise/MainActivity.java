@@ -1,28 +1,15 @@
 package com.example.joao.json_exercise;
 
-import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Type;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.HashMap;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.List;
 import java.util.Map;
 
@@ -92,27 +79,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         textView = (TextView)findViewById(R.id.textView_json);
-
-        /*
-        Map<String, Object> map = new HashMap<String, Object>();
-        map = importJsonToMap(content);
-        String green;
-        green = (((List)((Map)((Map)((List)(map.get("colors"))).get(1)).get("code")).get("rgba")).get(1)).toString();
-
-        Integer green;
-        green = new Integer((((List)((Map)((Map)((List)(map.get("colors"))).get(1)).get("code")).get("rgba")).get(1)).toString());
-        */
-
-
-
-
-
-
-
-
     }
 
-    public void count(View view){
+    void count(View view){
         Integer greenCount = 0;
         Map<String, Object> map;
         map = importJsonToMap(content);
@@ -128,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
         textView.setText(Integer.toString(greenCount));
     }
 
-    public void list(View view){
+    void list(View view){
         String greenColors = "";
         Map<String, Object> map;
         map = importJsonToMap(content);
@@ -144,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
         textView.setText(greenColors);
     }
 
-    public void modify(View view){
+    void modify(View view) throws JSONException{
         String orange = "{\n" +
                 "      \"color\": \"orange\",\n" +
                 "      \"category\": \"hue\",\n" +
@@ -158,35 +127,21 @@ public class MainActivity extends AppCompatActivity {
         Map<String, Object> map;
         map = importJsonToMap(content);
 
-        Map<String, Object> orangeToMap = new Gson().fromJson(orange, Map.class);
-
+        Map<String, Object> orangeToMap = importJsonToMap(orange);
         ((List)map.get("colors")).add(orangeToMap);
 
-        String mapStr = map.toString();
+        JSONObject jsonObject = new JSONObject(map);
 
-        textView.setText(mapStr);
+        //String mapStr = map.get("colors").toString();
+        String jsonStr = jsonObject.toString(2);
+
+        textView.setText(jsonStr);
     }
-
-
-
-
 
     public Map<String, Object> importJsonToMap(String content){
 
-        /*
-        //InputStream in = this.getClass().getResourceAsStream(content);
-        InputStream in = new ByteArrayInputStream(content.getBytes());
-
-        Reader reader = new InputStreamReader(in);
-        BufferedReader br = new BufferedReader(reader);
-
-        Type listType = new TypeToken<ArrayList<Color>>(){}.getType();
-        Gson gson = new Gson();
-        List<Color> colors = gson.fromJson(br, listType);
-        return colors;*/
-
-
         Map<String, Object> jsonToMap = new Gson().fromJson(content, Map.class);
         return jsonToMap;
+
     }
 }
